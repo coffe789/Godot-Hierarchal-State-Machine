@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "SortStateTransition",
 "language": "GDScript",
-"path": "res://SortStateTransition.gd"
+"path": "res://script/SortStateTransition.gd"
 }, {
 "base": "Node",
 "class": "State",
