@@ -9,7 +9,6 @@ func _ready():
 
 func on_activate():
 	target = get_parent().target
-	print("here")
 
 func is_grounded():
 	return target.is_on_floor()

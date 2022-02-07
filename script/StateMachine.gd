@@ -37,6 +37,7 @@ func add_to_history(state:State):
 
 
 # TODO make it so you don't enter/exit states because of super-states
+# TODO emit signal when changing states (and maybe when doing other things)
 func change_state(new_state:State):
 	if current_state != new_state:
 		if new_state.is_leaf():
