@@ -1,0 +1,51 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Object",
+"class": "SortStateTransition",
+"language": "GDScript",
+"path": "res://SortStateTransition.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://script/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://script/StateMachine.gd"
+}, {
+"base": "Resource",
+"class": "StateTransition",
+"language": "GDScript",
+"path": "res://script/StateTransition.gd"
+} ]
+_global_script_class_icons={
+"SortStateTransition": "",
+"State": "",
+"StateMachine": "",
+"StateTransition": ""
+}
+
+[application]
+
+config/name="HFST"
+run/main_scene="res://scene/world.tscn"
+config/icon="res://icon.png"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
