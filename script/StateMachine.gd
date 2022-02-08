@@ -1,6 +1,7 @@
 extends Node
 class_name StateMachine
 signal activate
+signal change_state(prev,current)
 
 onready var current_state = $RootState
 export var history_size = 3
@@ -36,16 +37,18 @@ func add_to_history(state:State):
 		state_history.pop_front()
 
 
-# TODO make it so you don't enter/exit states because of super-states
-# TODO emit signal when changing states (and maybe when doing other things)
 func change_state(new_state:State):
 	if current_state != new_state:
 		if new_state.is_leaf():
-			add_to_history(current_state)
-			print(new_state.name)
-		current_state._exit()
-		new_state._enter()
-		current_state = new_state
+			current_state._exit()
+			new_state._enter()
+			var previous_state = current_state
+			current_state = new_state
+			
+			add_to_history(previous_state)
+			emit_signal("change_state",previous_state,current_state)
+		else:
+			change_state(new_state._choose_substate()) # Recurse until leaf state
 
 
 # Change state to the previous state
