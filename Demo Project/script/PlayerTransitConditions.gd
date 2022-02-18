@@ -1,4 +1,5 @@
 extends TransitConditions
+# A library of functions that can be used to determine the result of state transitions
 
 func is_grounded():
 	return Target.is_on_floor()
@@ -19,7 +20,7 @@ func is_to_fall():
 	return Target.velocity.y >= 0
 
 func is_to_jump():
-	return Input.get_action_strength("ui_accept") && is_grounded()
+	return Input.is_action_just_pressed("ui_accept") && (is_grounded() || Target.air_jump_count > 0)
 
 # Utility only functions: #
 #-------------------------#

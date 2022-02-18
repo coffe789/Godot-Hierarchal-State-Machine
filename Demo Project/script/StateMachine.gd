@@ -7,13 +7,13 @@ signal changed_state(prev,current)
 
 onready var current_state = $RootState
 export var history_size = 3
-var target setget set_target
+var Target setget set_target
 var state_history = []
 
 # Machine starts once target is set
 func set_target(value):
 	assert(value)
-	target = value
+	Target = value
 	initialise_states(self)
 	init_conditions()
 	
@@ -21,22 +21,20 @@ func set_target(value):
 
 
 func init_conditions():
-	$TransitConditions.Target = target
+	$TransitConditions.Target = Target
 	$TransitConditions.root_state = $RootState
 	$TransitConditions.SM = self
-	
 
 
 # Sets required parameters for all states via recursion
 func initialise_states(root):
 	for child in root.get_children():
 		if child is State:
-			child.Target = target
+			child.Target = Target
 			child.SM = self
 			child.conditions_lib = $TransitConditions
 			child._add_transitions()
 			child._blacklist_transitions()
-#			child.inherit_transitions()
 			child.sort_transitions()
 			child._on_activate()
 			initialise_states(child) # Recurse
@@ -48,6 +46,17 @@ func add_to_history(state:State):
 		state_history.pop_back()
 
 
+# Check if any transition conditions are met
+func try_transition():
+	for t in current_state.transitions:
+		if t.condition_func.call_func():
+			change_state(t.target_state,t.allow_reenter)
+			return
+
+
+# If new state isn't a leaf state, continue down the tree until it is
+# If the new state is the same as the current state,
+#	a transition will not occur unless allow_reenter is true
 func change_state(new_state:State, allow_reenter=false):
 	if current_state != new_state || allow_reenter:
 		if new_state.is_leaf():
@@ -71,12 +80,6 @@ func pop_state():
 		emit_signal("changed_state")
 
 
-func try_transition():
-	for t in current_state.transitions:
-		if t.condition_func.call_func():
-			change_state(t.target_state,t.allow_reenter)
-			return
-
 # Periodically called by the owner/target of the machine,
 # from either _process or _physics_process
 func update(delta):
@@ -88,6 +91,3 @@ func update(delta):
 	else:
 		change_state(current_state._choose_substate())
 		update(delta)
-
-func previous_state():
-	return state_history[state_history.size()-1]

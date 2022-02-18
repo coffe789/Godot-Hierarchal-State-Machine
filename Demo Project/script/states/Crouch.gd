@@ -1,6 +1,7 @@
 extends "res://script/states/GroundState.gd"
 
 func _enter():
+	._enter()
 	Target.is_crouching = true
 
 func _exit():

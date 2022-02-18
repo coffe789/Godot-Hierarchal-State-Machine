@@ -1,5 +1,4 @@
 extends "res://script/states/RootState.gd"
-const GROUND_DRAG = 0.8
 
 func _choose_substate():
 	if conditions_lib.is_to_crouch():
@@ -7,6 +6,10 @@ func _choose_substate():
 	if conditions_lib.is_to_walk():
 		return $Walk
 	return $Idle 
+
+
+func _enter():
+	Target.air_jump_count = MAX_AIR_JUMPS
 
 
 func _update(_delta):

@@ -4,7 +4,7 @@ class_name State
 var Target
 var SM
 var conditions_lib
-var transitions = [] # A list of StateTransitions, includes inherited transitions
+var transitions = [] # A list of StateTransitions
 
 
 func _enter():
@@ -31,13 +31,13 @@ func _update(_delta):
 	pass
 
 
-# All non-leaf states must override this
+# All non-leaf states must override this!!
 func _choose_substate():
 	assert(false) # Override this function
-#	change_state($substate)
+	#return $substate
 
 
-# Called when machine is activated
+# Called when machine is activated, saves having to connect a signal up the tree
 func _on_activate():
 	pass
 

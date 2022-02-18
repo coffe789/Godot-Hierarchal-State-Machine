@@ -7,7 +7,9 @@ func _choose_substate():
 	return $Jump
 
 func _enter():
-	Target.velocity.y -= JUMP_SPEED
+	Target.velocity.y = -JUMP_SPEED
+	if !Target.is_on_floor():
+		Target.air_jump_count -= 1
 
 func _update(_delta):
 	._update(_delta)
