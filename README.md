@@ -42,9 +42,10 @@ The state hierarchy is organised into a tree using godot's built-in node system.
 A state inherits behaviour up the tree by 'extending' the script of its parent (see the example). This means the state will inherit all of its parent's functions, constant, state transitions, etc.
 
 As you should understand from the YouTube video, only the lower-level states with no children are considered actual states that can execute (I call these the leaf states). 
-Non-leaf states must override the _choose_substate() function, otherwise the machine won't be able to transition to a real state from there.
+Non-leaf states must override the _choose_substate() function, otherwise the machine won't be able to transition down to a real state from there.
 
-[insert image]
+![Alt text](https://cdn.discordapp.com/attachments/477074702662369280/944246317616627774/infographic.png "Title")
+
 All the important functions that you want to be inheriting between states are found in the `State` class, and prefixed with and underscore. 
 
 A quick recap of how a child can inherit its parent's function in Godot (assuming you are extending the parent):
