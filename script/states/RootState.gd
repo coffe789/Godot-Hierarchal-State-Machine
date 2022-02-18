@@ -19,9 +19,10 @@ func clamp_move_speed():
 	Target.velocity.y = clamp(Target.velocity.y,-INF,MAX_FALL_SPEED)
 
 
-func do_movement(drag):
+func do_movement():
 	if get_input_direction():
 		Target.velocity.x += get_input_direction() * 100
-	else:
-		Target.velocity.x *= drag
 	clamp_move_speed()
+
+func do_drag(drag):
+	Target.velocity.x *= drag

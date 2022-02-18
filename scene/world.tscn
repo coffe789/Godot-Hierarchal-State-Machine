@@ -1,17 +1,22 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://script/State.gd" type="Script" id=2]
 [ext_resource path="res://script/states/AirState.gd" type="Script" id=3]
 [ext_resource path="res://script/states/RootState.gd" type="Script" id=4]
-[ext_resource path="res://script/TransitConditions.gd" type="Script" id=5]
+[ext_resource path="res://script/states/TransitConditions.gd" type="Script" id=5]
 [ext_resource path="res://script/Player.gd" type="Script" id=6]
-[ext_resource path="res://script/states/jump.gd" type="Script" id=7]
+[ext_resource path="res://script/states/Jump.gd" type="Script" id=7]
 [ext_resource path="res://script/StateMachine.gd" type="Script" id=8]
-[ext_resource path="res://script/states/fall.gd" type="Script" id=9]
+[ext_resource path="res://script/states/Fall.gd" type="Script" id=9]
 [ext_resource path="res://script/states/GroundState.gd" type="Script" id=10]
-[ext_resource path="res://script/states/walk.gd" type="Script" id=11]
-[ext_resource path="res://script/states/idle.gd" type="Script" id=12]
+[ext_resource path="res://script/states/Walk.gd" type="Script" id=11]
+[ext_resource path="res://script/states/Idle.gd" type="Script" id=12]
+[ext_resource path="res://script/states/JumpState.gd" type="Script" id=13]
+[ext_resource path="res://script/states/FallState.gd" type="Script" id=14]
+[ext_resource path="res://script/states/CrouchJump.gd" type="Script" id=15]
+[ext_resource path="res://script/states/CrouchFall.gd" type="Script" id=16]
+[ext_resource path="res://script/states/Crouch.gd" type="Script" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 431, 30 )
@@ -33,7 +38,7 @@ extents = Vector2( 29, 29 )
 [node name="world" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 432, 571 )
+position = Vector2( 507, 569 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 1 )
@@ -44,6 +49,7 @@ scale = Vector2( 13.52, 1 )
 texture = ExtResource( 1 )
 
 [node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 424, 462 )
 script = ExtResource( 6 )
 
 [node name="HFSM" type="Node" parent="Player"]
@@ -58,20 +64,35 @@ script = ExtResource( 4 )
 [node name="AirState" type="Node" parent="Player/HFSM/RootState"]
 script = ExtResource( 3 )
 
-[node name="fall" type="Node" parent="Player/HFSM/RootState/AirState"]
+[node name="JumpState" type="Node" parent="Player/HFSM/RootState/AirState"]
+script = ExtResource( 13 )
+
+[node name="Jump" type="Node" parent="Player/HFSM/RootState/AirState/JumpState"]
+script = ExtResource( 7 )
+
+[node name="CrouchJump" type="Node" parent="Player/HFSM/RootState/AirState/JumpState"]
+script = ExtResource( 15 )
+
+[node name="FallState" type="Node" parent="Player/HFSM/RootState/AirState"]
+script = ExtResource( 14 )
+
+[node name="Fall" type="Node" parent="Player/HFSM/RootState/AirState/FallState"]
 script = ExtResource( 9 )
 
-[node name="jump" type="Node" parent="Player/HFSM/RootState/AirState"]
-script = ExtResource( 7 )
+[node name="CrouchFall" type="Node" parent="Player/HFSM/RootState/AirState/FallState"]
+script = ExtResource( 16 )
 
 [node name="GroundState" type="Node" parent="Player/HFSM/RootState"]
 script = ExtResource( 10 )
 
-[node name="walk" type="Node" parent="Player/HFSM/RootState/GroundState"]
+[node name="Walk" type="Node" parent="Player/HFSM/RootState/GroundState"]
 script = ExtResource( 11 )
 
-[node name="idle" type="Node" parent="Player/HFSM/RootState/GroundState"]
+[node name="Idle" type="Node" parent="Player/HFSM/RootState/GroundState"]
 script = ExtResource( 12 )
+
+[node name="Crouch" type="Node" parent="Player/HFSM/RootState/GroundState"]
+script = ExtResource( 17 )
 
 [node name="Sprite" type="Sprite" parent="Player"]
 texture = ExtResource( 1 )
@@ -79,5 +100,27 @@ texture = ExtResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource( 4 )
 
+[node name="StateLabel" type="Label" parent="Player"]
+margin_left = -25.0
+margin_top = -56.0
+margin_right = 15.0
+margin_bottom = -42.0
+rect_scale = Vector2( 2, 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="State" type="Node" parent="."]
 script = ExtResource( 2 )
+
+[node name="Info" type="Label" parent="."]
+margin_left = 371.0
+margin_top = 23.0
+margin_right = 508.0
+margin_bottom = 54.0
+rect_scale = Vector2( 2, 2 )
+text = "Press down to crouch
+Press space to jump"
+__meta__ = {
+"_edit_use_anchors_": false
+}

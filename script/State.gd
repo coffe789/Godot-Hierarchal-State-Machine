@@ -2,7 +2,7 @@ extends Node
 class_name State
 
 var Target
-var FSM
+var SM
 var conditions_lib
 var transitions = [] # A list of StateTransitions, includes inherited transitions
 
@@ -37,24 +37,14 @@ func _choose_substate():
 #	change_state($substate)
 
 
-# Pass own transitions to substates
-func inherit_transitions():
-	for child in get_children():
-		if child.has_method("inherit_transitions"):
-			child.transitions.append_array(transitions)
-			child.inherit_transitions()
+# Called when machine is activated
+func _on_activate():
+	pass
 
 
 func sort_transitions():
 	for t in transitions:
 		transitions.sort_custom(SortStateTransition,"sort_descending")
-
-
-func try_transition():
-	for t in transitions:
-		if t.condition_func.call_func():
-			FSM.change_state(t.target_state)
-			return
 
 
 # Leaf in the context of a tree data structure
@@ -63,8 +53,8 @@ func is_leaf():
 
 
 func remove_transition(id:String):
-	for t in transitions:
-		if t.id == id:
-			transitions.remove(t)
+	for i in transitions.size():
+		if transitions[i].id == id:
+			transitions.remove(i)
 			return
 	push_warning("Cannot find transition to remove: " + id)

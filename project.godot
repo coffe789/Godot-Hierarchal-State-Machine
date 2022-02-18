@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "StateTransition",
 "language": "GDScript",
 "path": "res://script/StateTransition.gd"
+}, {
+"base": "Node",
+"class": "TransitConditions",
+"language": "GDScript",
+"path": "res://script/TransitConditions.gd"
 } ]
 _global_script_class_icons={
 "SortStateTransition": "",
 "State": "",
 "StateMachine": "",
-"StateTransition": ""
+"StateTransition": "",
+"TransitConditions": ""
 }
 
 [application]
