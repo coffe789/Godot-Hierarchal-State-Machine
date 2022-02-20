@@ -39,7 +39,7 @@ The machine *must* have a child called "RootState" that inherits the `State` cla
 
 ### The state tree
 The state hierarchy is organised into a tree using godot's built-in node system. All states are children of the RootState, do not put anything that isn't a state in this tree.
-A state inherits behaviour up the tree by 'extending' the script of its parent (see the example). This means the state will inherit all of its parent's functions, constant, state transitions, etc.
+A state inherits behaviour up the tree by 'extending' the script of its parent (see the example). This means the state will inherit all of its parent's functions, constants, state transitions, etc.
 
 As you should understand from the YouTube video, only the lower-level states with no children are considered actual states that can execute (I call these the leaf states). 
 Non-leaf states must override the _choose_substate() function, otherwise the machine won't be able to transition down to a real state from there.
